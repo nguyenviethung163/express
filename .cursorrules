@@ -1,0 +1,42 @@
+# DMStudio Project Rules & Coding Standards
+
+## Tech Stack
+- **Framework**: Express.js v5 (use `AsyncHandler` for all routes)
+- **Runtime**: Node.js with ESM (`import/export`)
+- **Language**: TypeScript (Strict mode)
+- **ORM**: Drizzle ORM (Schema-first migrations)
+- **Validation**: Zod (Required for all request bodies and env)
+- **Testing**: Vitest (Unit & Integration)
+- **Logging**: Pino (Standardized via `shared/utils/pino-logger`)
+- **API Docs**: Swagger (Auto-generated via `swagger-autogen`)
+
+## Architecture: Modular
+Follow the structure in `src/modules/[module-name]`:
+- `[module].controller.ts`: Only handle HTTP concerns (Standardized `ApiResponse`).
+- `[module].service.ts`: Contain all business logic & DB interactions.
+- `[module].routes.ts`: Define routes and link to controllers.
+- `[module].validation.ts`: Zod schemas for the module.
+
+## Coding Standards
+1. **Error Handling**: Throw `ApiError` from services/controllers. Never use `try-catch` for standard flow control; let `errorHandler` handle it.
+2. **Responses**: Always use `ApiResponse.ok()` or `ApiResponse.created()`.
+3. **Database**: Use `db` instance from `@db/db`. Follow schema-first approach.
+4. **Testing**: Create `*.test.ts` for all services. Mock database calls.
+5. **Async**: Use `AsyncHandler` wrapper for all Express route handlers.
+6. **Documentation**: Use JSDoc (XML-style) for all core Services, Utilities, and Providers. Document parameters, return types, and templates.
+
+## Performance & State
+- **Caching**: Use `cacheMiddleware` for GET routes that don't need real-time data.
+- **Redis**: Use `RedisService` singleton for manual cache management. Never instantiate `ioredis` directly.
+
+## Storage System
+- **Provider Pattern**: Use `StorageService.upload()` instead of direct provider implementation.
+- **Cleanup**: Always delete orphaned files via `StorageService.delete(key)` when records are removed.
+
+## Standard Utilities
+- **standard response**: `import { ApiResponse } from "../../shared/utils/api-response";`
+- **async wrapper**: `import { AsyncHandler } from "../../shared/utils/async-handler";`
+- **custom error**: `import { ApiError } from "../../shared/errors/api-error";`
+- **logging**: `import { logger } from "../../shared/utils/pino-logger";`
+- **storage**: `import { StorageService } from "../../shared/utils/storage/storage.service";`
+- **caching**: `import { cacheMiddleware } from "../../shared/middlewares/cache.middleware";`

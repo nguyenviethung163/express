@@ -1,0 +1,23 @@
+{
+  "$schema": "https://servercn.vercel.app/schema/servercn.config.registry.json",
+  "version": "1.1.8",
+  "project": {
+    "root": ".",
+    "type": "backend",
+    "packageManager": "npm"
+  },
+  "stack": {
+    "runtime": "node",
+    "language": "typescript",
+    "framework": "express",
+    "architecture": "feature"
+  },
+  "database": {
+    "engine": "postgresql",
+    "adapter": "drizzle"
+  },
+  "meta": {
+    "createdAt": "2026-03-06T03:27:59.895Z",
+    "createdBy": "servercn@1.1.8"
+  }
+}
